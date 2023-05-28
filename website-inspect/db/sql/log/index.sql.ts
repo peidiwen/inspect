@@ -14,3 +14,5 @@ ON website_inspect.log.status_id =website_inspect.status.id Limit ?,?
 `;
 
 export const queryNoLog=`select * from website_inspect.\`noLogs\` limit ?,?;`
+export const queryLogTotal=`SELECT COUNT(*) as total from log;`
+export const queryNoLogTotal=`SELECT COUNT(*)  as total from noLogs;`

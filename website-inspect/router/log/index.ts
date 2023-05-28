@@ -3,7 +3,7 @@ import express from "express";
 import _ from "lodash";
 import DB from "../../db/index";
 import type { Request, Response, NextFunction } from "express";
-import { Add,  queryNoLog,  queryPAge } from "../../db/sql/log/index.sql";
+import { Add,  queryLogTotal,  queryNoLog,  queryNoLogTotal,  queryPAge } from "../../db/sql/log/index.sql";
 import { SuccessTip } from "../../config";
 import { checkSchema } from "express-validator";
 import { sqlDoctor } from "../../tool/sqlDoctor";
@@ -38,5 +38,21 @@ router.get('/queryNoLog',(req, res, next) => {
   DB.execute(queryNoLog,[`${(page-1)*10}`,`${page*10}`], (err, result) => {
     err ? next(err) : res.send(SuccessTip(result));
   });
+})
+router.get('/queryTotal',(req, res, next) => {
+  // 查询所有g ;
+  const {type}=req.query;
+  if (type as string=='0'){
+    DB.execute(queryNoLogTotal, (err, result) => {
+      err ? next(err) : res.send(SuccessTip(result));
+    });
+  }else{
+    DB.execute(queryLogTotal, (err, result) => {
+      err ? next(err) : res.send(SuccessTip(result));
+    });
+  }
+
+  
+
 })
 export default router;
