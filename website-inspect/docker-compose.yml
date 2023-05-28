@@ -1,0 +1,23 @@
+services:
+  website-inspect:
+    build: ./
+    ports:
+      - 3030:3030
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - 4040:4040
+    volumes:
+      - website-inspect:/var/lib/mysql
+    environment:
+      MYSQL_TCP_PORT: 4040
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: website_inspect
+      
+
+volumes:
+  website-inspect:
