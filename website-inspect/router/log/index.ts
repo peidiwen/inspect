@@ -43,12 +43,14 @@ router.get('/queryTotal',(req, res, next) => {
   // 查询所有g ;
   const {type}=req.query;
   if (type as string=='0'){
-    DB.execute(queryNoLogTotal, (err, result) => {
-      err ? next(err) : res.send(SuccessTip(result));
+    DB.execute(queryNoLogTotal, (err, result:any) => {
+      const [{total}]=result
+      err ? next(err) : res.send({total});
     });
   }else{
-    DB.execute(queryLogTotal, (err, result) => {
-      err ? next(err) : res.send(SuccessTip(result));
+    DB.execute(queryLogTotal, (err, result:any) => {
+      const [{total}]=result
+      err ? next(err) : res.send({total});
     });
   }
 
