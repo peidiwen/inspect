@@ -10,9 +10,9 @@ ON website_inspect.log.website_id= website_inspect.website.id
 INNER JOIN website_inspect.\`user\` 
 ON website_inspect.log.account  = website_inspect.\`user\`.account
 INNER JOIN website_inspect.status 
-ON website_inspect.log.status_id =website_inspect.status.id Limit ?,?
+ON website_inspect.log.status_id =website_inspect.status.id  order by website_inspect.log.time DESC Limit ?,?
 `;
 
-export const queryNoLog=`select * from website_inspect.\`noLogs\` limit ?,?;`
+export const queryNoLog=`select * from website_inspect.\`noLogs\` order by website_inspect.noLogs.time DESC Limit ?,? ;`
 export const queryLogTotal=`SELECT COUNT(*) as total from log;`
 export const queryNoLogTotal=`SELECT COUNT(*)  as total from noLogs;`

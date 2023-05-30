@@ -25,36 +25,37 @@ router.post(
 );
 
 // 查询日志
-router.get("/queryPAge", (req, res, next) => {
+router.get("/queryLog", (req, res, next) => {
   // 查询所有
   const page:any=req.query.page ;
-  DB.execute(queryPAge,[`${(page-1)*10}`,`${page*10}`], (err, result) => {
-    err ? next(err) : res.send(SuccessTip(result));
-  });
+  const start=(page-1)*10
+    DB.execute(queryLogTotal, (err, result:any) => {
+      const [{total}]=result
+      DB.execute(queryPAge,[`${start}`,`${10}`], (err, resul:any) => {
+        err ? next(err) : res.send({
+          data:[...resul],
+          total
+        });
+
+      });
+ 
+    });
+  
+
 });
 router.get('/queryNoLog',(req, res, next) => {
   // 查询所有
   const page:any=req.query.page ;
-  DB.execute(queryNoLog,[`${(page-1)*10}`,`${page*10}`], (err, result) => {
-    err ? next(err) : res.send(SuccessTip(result));
+  const start=(page-1)*10
+  DB.execute(queryNoLogTotal, (err, result:any) => {
+    const [{total}]=result
+    DB.execute(queryNoLog,[`${start}`,`${10}`], (err, resul:any) => {
+      err ? next(err) : res.send({
+        data:[...resul],
+        total
+      });
+    });
   });
 })
-router.get('/queryTotal',(req, res, next) => {
-  // 查询所有g ;
-  const {type}=req.query;
-  if (type as string=='0'){
-    DB.execute(queryNoLogTotal, (err, result:any) => {
-      const [{total}]=result
-      err ? next(err) : res.send({total});
-    });
-  }else{
-    DB.execute(queryLogTotal, (err, result:any) => {
-      const [{total}]=result
-      err ? next(err) : res.send({total});
-    });
-  }
 
-  
-
-})
 export default router;
