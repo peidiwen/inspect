@@ -26,7 +26,6 @@ router.get("/by_account", (0, express_validator_1.checkSchema)(validation_schema
     });
 });
 router.get('/updateAssinging', (req, res, next) => {
-    console.log("awda");
     (0, taskAssigning_1.taskAssigning)();
     res.send({
         status: 200,

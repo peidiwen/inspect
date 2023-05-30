@@ -29,7 +29,6 @@ router.get(
 );
 
 router.get('/updateAssinging',(req,res,next)=>{
-    console.log("awda");
     taskAssigning();
     res.send({
         status:200,

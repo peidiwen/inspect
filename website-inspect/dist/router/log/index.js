@@ -21,18 +21,32 @@ router.post("/", (0, express_validator_1.checkSchema)(validation_schema_1.AddVal
     });
 });
 // 查询日志
-router.get("/queryPAge", (req, res, next) => {
+router.get("/queryLog", (req, res, next) => {
     // 查询所有
     const page = req.query.page;
-    index_1.default.execute(index_sql_1.queryPAge, [`${(page - 1) * 10}`, `${page * 10}`], (err, result) => {
-        err ? next(err) : res.send((0, config_1.SuccessTip)(result));
+    const start = (page - 1) * 10;
+    index_1.default.execute(index_sql_1.queryLogTotal, (err, result) => {
+        const [{ total }] = result;
+        index_1.default.execute(index_sql_1.queryPAge, [`${start}`, `${10}`], (err, resul) => {
+            err ? next(err) : res.send({
+                data: [...resul],
+                total
+            });
+        });
     });
 });
 router.get('/queryNoLog', (req, res, next) => {
     // 查询所有
     const page = req.query.page;
-    index_1.default.execute(index_sql_1.queryNoLog, [`${(page - 1) * 10}`, `${page * 10}`], (err, result) => {
-        err ? next(err) : res.send((0, config_1.SuccessTip)(result));
+    const start = (page - 1) * 10;
+    index_1.default.execute(index_sql_1.queryNoLogTotal, (err, result) => {
+        const [{ total }] = result;
+        index_1.default.execute(index_sql_1.queryNoLog, [`${start}`, `${10}`], (err, resul) => {
+            err ? next(err) : res.send({
+                data: [...resul],
+                total
+            });
+        });
     });
 });
 exports.default = router;
